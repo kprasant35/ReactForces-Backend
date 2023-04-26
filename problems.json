@@ -1,0 +1,14 @@
+[
+    {
+        "problemId":"a",
+        "reactions": [1,2,3]
+    },
+    {
+        "problemId":"b",
+        "reactions": [3,2,1]
+    },
+    {
+        "problemId":"c",
+        "reactions": [6,2,9]
+    }
+]

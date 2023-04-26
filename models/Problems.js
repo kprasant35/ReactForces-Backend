@@ -5,7 +5,7 @@ const problemSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Problem Id is required']
     },
-    emojis:{
+    reactions:{
         type: [Number],
         default: [0,0,0] // boring, nice, amazing
     }
