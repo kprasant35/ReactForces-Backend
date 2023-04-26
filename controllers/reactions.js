@@ -53,7 +53,6 @@ const updateReactions = async (req, res) => {
         }
 
         let reactions = reactionsDoc.reactions;
-        console.log(reactions);
 
         if(previousEmoji==='boring'){
             reactions[0]--;
