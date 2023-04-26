@@ -14,12 +14,14 @@ const getReactions = async (req, res) => {
         res.status(404).json({message: err.message});
     }
 }
+
+
 const getUserReaction = async (req, res) => {
     try{
         const {userId, problemId} = req.body; // we will send this from frontend
 
         const emojiDoc = await Users.findOne({userId : userId, problemId: problemId});
-        if(!emoji){
+        if(!emojiDoc){
             emojiDoc = new Users({ 
                 userId: userId,
                 problemId: problemId // default reaction count is 0,0,0
@@ -40,17 +42,18 @@ const updateReactions = async (req, res) => {
     try{
 
         // update the problem database
-        const {problemId, previousEmoji, currentEmoji} = req.body; // we will send this from frontend
+        const {problemId, previousEmoji, currentEmoji, userId} = req.body; // we will send this from frontend
 
         let reactionsDoc = await Problems.findOne({problemId : problemId});
-
-        if(!reactions){
-            reactions = new Problems({ 
+        
+        if(!reactionsDoc){
+            reactionsDoc = new Problems({ 
                 problemId: problemId // default reaction count is 0,0,0
             });
         }
 
         let reactions = reactionsDoc.reactions;
+        console.log(reactions);
 
         if(previousEmoji==='boring'){
             reactions[0]--;
@@ -69,12 +72,6 @@ const updateReactions = async (req, res) => {
         }
         
         reactionsDoc.save();
-        
-
-        // update the User database
-        let emojiDoc = await Users.findOne({userId : userId, problemId: problemId}); // it should always exist because we are calling getUserReaction before calling this function 
-        emojiDoc.emoji=currentEmoji;
-        emojiDoc.save();
 
 
         res.status(200).json(reactionsDoc);
@@ -83,4 +80,28 @@ const updateReactions = async (req, res) => {
       }
 }
 
-module.exports = {getReactions, updateReactions, getUserReaction};
+const updateUserReaction = async (req, res) => {
+    try{
+
+        //update the User database
+        const {problemId, previousEmoji, currentEmoji, userId} = req.body;
+
+        let emojiDoc = await Users.findOne({userId : userId, problemId: problemId}); // it should always exist because we are calling getUserReaction before calling this function 
+
+        if(!emojiDoc){
+            emojiDoc = new Users({ 
+                userId: userId,
+                problemId: problemId // default reaction count is 0,0,0
+            });
+        }
+
+        emojiDoc.emoji=currentEmoji;
+        emojiDoc.save();
+
+
+        res.status(200).json(emojiDoc);
+      }catch(err){
+          res.status(404).json({message: err.message});
+      }
+}
+module.exports = {getReactions, updateReactions, getUserReaction, updateUserReaction};
