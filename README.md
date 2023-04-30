@@ -104,7 +104,7 @@ Content-Type: application/json
 
 {
     "problemId": "1821+Timber",
-    "userId": "123",
+    "userId": "abc123",
     "currentEmoji": "amazing"
 }
 ```
