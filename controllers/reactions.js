@@ -42,7 +42,7 @@ const updateReactions = async (req, res) => {
     try{
 
         // update the problem database
-        const {problemId, previousEmoji, currentEmoji, userId} = req.body; // we will send this from frontend
+        const {problemId, previousEmoji, currentEmoji} = req.body; // we will send this from frontend
 
         let reactionsDoc = await Problems.findOne({problemId : problemId});
         
@@ -83,7 +83,7 @@ const updateUserReaction = async (req, res) => {
     try{
 
         //update the User database
-        const {problemId, previousEmoji, currentEmoji, userId} = req.body;
+        const {problemId, currentEmoji, userId} = req.body;
 
         let emojiDoc = await Users.findOne({userId : userId, problemId: problemId}); // it should always exist because we are calling getUserReaction before calling this function 
 
@@ -103,4 +103,5 @@ const updateUserReaction = async (req, res) => {
           res.status(404).json({message: err.message});
       }
 }
+
 module.exports = {getReactions, updateReactions, getUserReaction, updateUserReaction};
