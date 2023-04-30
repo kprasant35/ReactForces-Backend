@@ -24,6 +24,8 @@ GET /api/v1/problems?problemId=<problemId> HTTP/1.1
 Host: localhost:3000
 ```
 
+**Note:** problemId = contestId + Problem Name
+
 ##### Response
 
 ```
