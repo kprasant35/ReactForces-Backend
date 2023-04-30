@@ -118,6 +118,6 @@ Content-Type: application/json
 {
     "problemId": "1821+Timber",
     "userId": "abc123"
-    "emoji": "nice"
+    "emoji": "amazing"
 }
 ```
