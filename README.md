@@ -19,18 +19,22 @@ This endpoint returns the current emoji count of a problem.
 
 ##### Request
 
-GET /api/v1/problems?problemId=<problemId> HTTP/1.1
-Host: localhost:3000
+```
+    GET /api/v1/problems?problemId=<problemId> HTTP/1.1
+    Host: localhost:3000
+```
 
 ##### Response
 
-HTTP/1.1 200 OK
-Content-Type: application/json
+```
+    HTTP/1.1 200 OK
+    Content-Type: application/json
 
-{
-"problemId": "1821+Timber",
-"reactions": [1, 2, 3] // denoting boring, nice and amazing emoji count
-}
+    {
+    "problemId": "1821+Timber",
+    "reactions": [1, 2, 3] // denoting boring, nice and amazing emoji count
+    }
+```
 
 ### PATCH /api/v1/problems
 
@@ -38,21 +42,25 @@ This endpoint updates the current emoji count of a problem.
 
 ##### Request
 
-PATCH /api/v1/problems HTTP/1.1
-Host: localhost:3000
-Content-Type: application/json
+```
+    PATCH /api/v1/problems HTTP/1.1
+    Host: localhost:3000
+    Content-Type: application/json
 
-{
-"problemId": "1821+Timber",
-"previousEmoji": "boring",
-"currentEmoji": "nice"
-}
+    {
+    "problemId": "1821+Timber",
+    "previousEmoji": "boring",
+    "currentEmoji": "nice"
+    }
+```
 
 ##### Response
 
-HTTP/1.1 200 OK
-Content-Type: application/json
-{
-"problemId": "1821+Timber",
-"reactions": [0, 3, 3] // denoting boring, nice and amazing emoji count
-}
+```
+    HTTP/1.1 200 OK
+    Content-Type: application/json
+    {
+    "problemId": "1821+Timber",
+    "reactions": [0, 3, 3] // denoting boring, nice and amazing emoji count
+    }
+```
