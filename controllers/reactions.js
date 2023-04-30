@@ -5,7 +5,7 @@ const Users = require('../models/Users');
 // Read
 const getReactions = async (req, res) => {
     try{
-        const {problemId} = req.body; // we will send this from client side
+        const {problemId} = req.query; // we will send this from client side
 
         const reactions = await Problems.findOne({problemId : problemId});
         res.status(200).json(reactions);
@@ -18,7 +18,7 @@ const getReactions = async (req, res) => {
 
 const getUserReaction = async (req, res) => {
     try{
-        const {userId, problemId} = req.body; // we will send this from frontend
+        const {userId, problemId} = req.query; // we will send this from frontend
 
         const emojiDoc = await Users.findOne({userId : userId, problemId: problemId});
         if(!emojiDoc){
