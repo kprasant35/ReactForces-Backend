@@ -8,7 +8,12 @@ const getReactions = async (req, res) => {
         const {problemId} = req.query; // we will send this from client side
 
         const reactions = await Problems.findOne({problemId : problemId});
-        res.status(200).json(reactions);
+        let reactionsCount = [0,0,0];
+        if(reactions){
+            reactionsCount=reactions.reactions
+        }
+
+        res.status(200).json(reactionsCount);
 
     }catch(err){
         res.status(404).json({message: err.message});
@@ -20,11 +25,12 @@ const getUserReaction = async (req, res) => {
     try{
         const {userId, problemId} = req.query; // we will send this from frontend
 
-        const emojiDoc = await Users.findOne({userId : userId, problemId: problemId});
+        let emojiDoc = await Users.findOne({userId : userId, problemId: problemId});
+        console.log(emojiDoc);
         if(!emojiDoc){
             emojiDoc = new Users({ 
                 userId: userId,
-                problemId: problemId // default reaction count is 0,0,0
+                problemId: problemId 
             });
             emojiDoc.save();
         }
