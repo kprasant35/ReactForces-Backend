@@ -25,15 +25,7 @@ const getUserReaction = async (req, res) => {
     try{
         const {userId, problemId} = req.query; // we will send this from frontend
 
-        let emojiDoc = await Users.findOne({userId : userId, problemId: problemId});
-        console.log(emojiDoc);
-        if(!emojiDoc){
-            emojiDoc = new Users({ 
-                userId: userId,
-                problemId: problemId 
-            });
-            emojiDoc.save();
-        }
+        const emojiDoc = await Users.findOne({userId : userId, problemId: problemId});
         
         res.status(200).json(emojiDoc);
 
