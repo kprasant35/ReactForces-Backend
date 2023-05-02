@@ -1,7 +1,18 @@
 require('dotenv').config();
 
 const express = require('express');
+const cors = require('cors');
+
 const app = express();
+
+var corsOptions = {
+    origin: 'https://codeforces.com/',
+    optionsSuccessStatus: 200, // For legacy browser support
+    methods: ['GET','PATCH']
+}
+
+
+app.use(cors(corsOptions));
 
 const connectDB = require('./db/connect');
 
