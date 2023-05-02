@@ -6,7 +6,7 @@ const cors = require('cors');
 const app = express();
 
 var corsOptions = {
-    origin: [/^https:\/\/codeforces\.com$/, /^chrome-extension:\/\//],
+    origin: ['https://codeforces.com', 'chrome-extension://effdiamnkcpclcnfkfdaldbbdaellnpm'],
     optionsSuccessStatus: 200, // For legacy browser support
     methods: ['GET','PATCH']
 }
