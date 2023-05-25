@@ -104,13 +104,15 @@ const updateUserReaction = async (req, res) => {
 
 // helper function
 const getProblemId = async ({problemId}) =>{
-    const contestId = problemId.split('-')[0];
-    console.log('ContestId is:  ',contestId);
-    const contestStartTime = await ContestStartTime.findOne({contestId : contestId});
-    console.log(contestStartTime);
-    const startTime = contestStartTime.startTime;
-    let newProblemId = `${startTime}+${problemId.split('-')[1]}`;
-    return newProblemId;
+    try{
+        const contestId = problemId.split('-')[0];
+        const contestStartTime = await ContestStartTime.findOne({contestId : contestId});
+        const startTime = contestStartTime.startTime;
+        let newProblemId = `${startTime}+${problemId.split('-')[1]}`;
+        return newProblemId;
+    } catch(error){
+        console.error(error);
+    }
 }
 
 module.exports = {getReactions, updateReactions, getUserReaction, updateUserReaction};
