@@ -4,7 +4,6 @@ const ContestStartTime = require('../models/ContestStartTime');
 
 const mapContestIdWithStartTime = async ({id, startTimeSeconds}) =>{
     let contest = await ContestStartTime.findOne({contestId : id});
-
     if(!contest){
         contest = new ContestStartTime({ 
             contestId: id,

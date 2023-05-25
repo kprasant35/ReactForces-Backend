@@ -5,7 +5,7 @@ const ContestStartTime = require('../models/ContestStartTime');
 // Read
 const getReactions = async (req, res) => {
     try{
-        const problemId = getProblemId(req.query); // we will send this from client side
+        const problemId = await getProblemId(req.query); // we will send this from client side
 
         const reactions = await Problems.findOne({problemId : problemId});
         let reactionsCount = [0,0,0];
@@ -24,7 +24,7 @@ const getReactions = async (req, res) => {
 const getUserReaction = async (req, res) => {
     try{
         const {userId} = req.query; // we will send this from frontend
-        const problemId = getProblemId(req.query);
+        const problemId = await getProblemId(req.query);
         const emojiDoc = await Users.findOne({userId : userId, problemId: problemId});
         
         res.status(200).json(emojiDoc);
@@ -41,7 +41,7 @@ const updateReactions = async (req, res) => {
 
         // update the problem database
         const {previousEmoji, currentEmoji} = req.body; // we will send this from frontend
-        const problemId = getProblemId(req.body);
+        const problemId = await getProblemId(req.body);
         let reactionsDoc = await Problems.findOne({problemId : problemId});
         
         if(!reactionsDoc){
@@ -82,7 +82,7 @@ const updateUserReaction = async (req, res) => {
 
         //update the User database
         const {currentEmoji, userId} = req.body;
-        const problemId = getProblemId(req.body);
+        const problemId = await getProblemId(req.body);
         let emojiDoc = await Users.findOne({userId : userId, problemId: problemId}); // it should always exist because we are calling getUserReaction before calling this function 
 
         if(!emojiDoc){
@@ -104,10 +104,12 @@ const updateUserReaction = async (req, res) => {
 
 // helper function
 const getProblemId = async ({problemId}) =>{
-    const contestId = problemId.split('+')[0];
+    const contestId = problemId.split('-')[0];
+    console.log('ContestId is:  ',contestId);
     const contestStartTime = await ContestStartTime.findOne({contestId : contestId});
+    console.log(contestStartTime);
     const startTime = contestStartTime.startTime;
-    let newProblemId = `${startTime}+${problemId.split('+')[1]}`;
+    let newProblemId = `${startTime}+${problemId.split('-')[1]}`;
     return newProblemId;
 }
 
