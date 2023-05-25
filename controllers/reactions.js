@@ -1,11 +1,11 @@
 const Problems = require('../models/Problems');
 const Users = require('../models/Users');
-
+const ContestStartTime = require('../models/ContestStartTime');
 
 // Read
 const getReactions = async (req, res) => {
     try{
-        const {problemId} = req.query; // we will send this from client side
+        const problemId = getProblemId(req.query); // we will send this from client side
 
         const reactions = await Problems.findOne({problemId : problemId});
         let reactionsCount = [0,0,0];
@@ -23,8 +23,8 @@ const getReactions = async (req, res) => {
 
 const getUserReaction = async (req, res) => {
     try{
-        const {userId, problemId} = req.query; // we will send this from frontend
-
+        const {userId} = req.query; // we will send this from frontend
+        const problemId = getProblemId(req.query);
         const emojiDoc = await Users.findOne({userId : userId, problemId: problemId});
         
         res.status(200).json(emojiDoc);
@@ -40,8 +40,8 @@ const updateReactions = async (req, res) => {
     try{
 
         // update the problem database
-        const {problemId, previousEmoji, currentEmoji} = req.body; // we will send this from frontend
-
+        const {previousEmoji, currentEmoji} = req.body; // we will send this from frontend
+        const problemId = getProblemId(req.body);
         let reactionsDoc = await Problems.findOne({problemId : problemId});
         
         if(!reactionsDoc){
@@ -81,8 +81,8 @@ const updateUserReaction = async (req, res) => {
     try{
 
         //update the User database
-        const {problemId, currentEmoji, userId} = req.body;
-
+        const {currentEmoji, userId} = req.body;
+        const problemId = getProblemId(req.body);
         let emojiDoc = await Users.findOne({userId : userId, problemId: problemId}); // it should always exist because we are calling getUserReaction before calling this function 
 
         if(!emojiDoc){
@@ -100,6 +100,15 @@ const updateUserReaction = async (req, res) => {
       }catch(err){
           res.status(404).json({message: err.message});
       }
+}
+
+// helper function
+const getProblemId = async ({problemId}) =>{
+    const contestId = problemId.split('+')[0];
+    const contestStartTime = await ContestStartTime.findOne({contestId : contestId});
+    const startTime = contestStartTime.startTime;
+    let newProblemId = `${startTime}+${problemId.split('+')[1]}`;
+    return newProblemId;
 }
 
 module.exports = {getReactions, updateReactions, getUserReaction, updateUserReaction};

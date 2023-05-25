@@ -3,7 +3,6 @@ const Users = require('../models/Users');
 const ContestStartTime = require('../models/ContestStartTime');
 
 const mapContestIdWithStartTime = async ({id, startTimeSeconds}) =>{
-  //  console.log(id, startTimeSeconds);
     let contest = await ContestStartTime.findOne({contestId : id});
 
     if(!contest){
