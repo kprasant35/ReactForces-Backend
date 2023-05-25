@@ -2,6 +2,7 @@ require('dotenv').config();
 
 const express = require('express');
 const cors = require('cors');
+const {updateStartTime} = require('./controllers/startTime');
 
 const app = express();
 
@@ -38,6 +39,10 @@ const start = async()=>{
         app.listen(port,()=>{
             console.log(`Server is listening to ${port}...`);
         });
+
+        // Due to div1 and div 2 contests, same question can have different problem id, for this we will map contestId with start time of that contest because both div1 and div2 have same start time, but different contest id.
+        updateStartTime();
+
     }catch(err){
         console.log(err);
     }
