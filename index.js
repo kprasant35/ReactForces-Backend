@@ -13,7 +13,7 @@ var corsOptions = {
 }
 
 
-app.use(cors());
+app.use(cors(corsOptions));
 
 const connectDB = require('./db/connect');
 
